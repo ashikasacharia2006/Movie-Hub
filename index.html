@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Review Hub</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+        header {
+            background: #1e3c72;
+            padding: 20px;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        main {
+            padding: 20px;
+        }
+        section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px auto;
+            border-radius: 15px;
+            width: 80%;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.3);
+        }
+        select, button {
+            padding: 12px;
+            margin: 10px;
+            border-radius: 8px;
+            border: none;
+        }
+        button {
+            background: #ffcc00;
+            color: #1e3c72;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #e6b800;
+        }
+        footer {
+            background: #1e3c72;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Movie Hub</h1>
+        <p>Find your perfect movie</p>
+    </header>
+    
+    <main>
+        <section id="movie-recommendation">
+            <h2>Find Movie Recommendations</h2>
+            <label for="genre">Choose Genre:</label>
+            <select id="genre">
+                <option value="" disabled selected>Select</option>
+                <option value="action">Action</option>
+                <option value="comedy">Comedy</option>
+                <option value="drama">Drama</option>
+                <option value="fantasy">Fantasy</option>
+                <option value="horror">Horror</option>
+                <option value="rom-com">Rom-Com</option>
+                <option value="thriller">Thriller</option>
+                <option value="sci-fi">Sci-Fi</option>
+            </select>
+            <label for="movie-language">Choose Language:</label>
+            <select id="movie-language">
+                <option value="" disabled selected>Select</option>
+                <option value="english">English</option>
+                <option value="hindi">Hindi</option>
+                <option value="tamil">Tamil</option>
+                <option value="telugu">Telugu</option>
+                <option value="malayalam">Malayalam</option>
+            </select>
+            <button onclick="getMovieRecommendation()">Get Recommendation</button>
+            <div id="movie-result"></div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Movie Review Hub. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        function getMovieRecommendation() {
+            const genre = document.getElementById("genre").value;
+            const language = document.getElementById("movie-language").value;
+            const movieResult = document.getElementById("movie-result");
+            
+            const recommendations = {
+    "action": {
+        "english": ["Mad Max: Fury Road", "John Wick", "Die Hard", "The Dark Knight", "Gladiator"], 
+        "hindi": ["K.G.F: Chapter 1", "War", "Shershaah", "Singham", "Pathaan"], 
+        "tamil": ["Vikram", "Kaithi", "Thuppakki", "Kabali", "Bigil"], 
+        "telugu": ["Baahubali", "Pushpa", "Rangasthalam", "Eega", "Akhanda"], 
+        "kannada": ["K.G.F: Chapter 2", "Ugramm", "Tagaru", "Robert", "Yuvarathnaa"], 
+        "malayalam": ["Lucifer", "Marco", "Bheeshma Parvam", "Masterpiece", "The Great Father"],
+        "subtitles": "Available in multiple languages"
+    },
+    "comedy": {
+        "english": ["Superbad", "The Hangover", "Dumb and Dumber", "Step Brothers", "Anchorman"], 
+        "hindi": ["Hera Pheri", "Golmaal", "Chupke Chupke", "3 Idiots", "Munna Bhai M.B.B.S."], 
+        "tamil": ["Boss Engira Bhaskaran", "Varuthapadatha Valibar Sangam", "Idharkuthane Aasaipattai Balakumara", "Soodhu Kavvum", "Panchathanthiram"], 
+        "telugu": ["Eega", "Jathi Ratnalu", "Dookudu", "F2: Fun and Frustration", "Nuvvu Naaku Nachav"], 
+        "kannada": ["Ricky", "Googly", "Kirataka", "Bell Bottom", "Victory"], 
+        "malayalam": ["Kilukkam", "Punjabi House", "Ramji Rao Speaking", "Godfather", "Kalyanaraman"],
+        "subtitles": "Available in multiple languages"
+    },
+    "drama": {
+        "english": ["The Shawshank Redemption", "Forrest Gump", "The Pursuit of Happyness", "Good Will Hunting", "A Beautiful Mind"], 
+        "hindi": ["Taare Zameen Par", "Swades", "Zindagi Na Milegi Dobara", "Dil Chahta Hai", "Rang De Basanti"], 
+        "tamil": ["Aaytha Ezhuthu", "Pariyerum Perumal", "Super Deluxe", "Joker", "Iruvar"], 
+        "telugu": ["Mahanati", "Jersey", "Vedam", "Arjun Reddy", "Pellichoopulu"], 
+        "kannada": ["Lucia", "Thithi", "Kantara", "Ulidavaru Kandanthe", "Bannada Neralu"], 
+        "malayalam": ["Drishyam", "Bangalore Days", "Premam", "Kumbalangi Nights", "Traffic"],
+        "subtitles": "Available in multiple languages"
+    },
+    "horror": {
+        "english": ["The Conjuring", "It", "A Quiet Place", "Hereditary", "The Exorcist"], 
+        "hindi": ["Stree", "Bhoot Part One: The Haunted Ship", "Raaz", "Tumbbad", "Ragini MMS"], 
+        "tamil": ["Pizza", "Demonte Colony", "Maya", "Aval", "Kanchana"], 
+        "telugu": ["Arundhati", "Prema Katha Chitram", "Raju Gari Gadhi", "Avunu", "Anando Brahma"], 
+        "kannada": ["6-5=2", "Shhh!", "Naa Ninna Bidalaare", "U Turn", "Horror Story"], 
+        "malayalam": ["Manichitrathazhu", "Ezra", "Anjaam Pathiraa", "Pretham", "Churuli"],
+        "subtitles": "Available in multiple languages"
+    },
+    "sci-fi": {
+        "english": ["Interstellar", "Inception", "Blade Runner 2049", "The Matrix", "Gravity"], 
+        "hindi": ["Robot (Enthiran)", "Koi Mil Gaya", "PK", "Ra.One", "Cargo"], 
+        "tamil": ["2.0", "Indru Netru Naalai", "Tik Tik Tik", "7aum Arivu", "Dasavatharam"], 
+        "telugu": ["Aditya 369", "Eega", "1: Nenokkadine", "Yevade Subramanyam", "Manam"], 
+        "kannada": ["Vishnuvardhana", "Charlie 777", "Super", "Arishadvarga", "Pailwaan"], 
+        "malayalam": ["Android Kunjappan", "Gaganachari", "9", "Minnal Murali", "Red Rain"],
+        "subtitles": "Available in multiple languages"
+    },
+    "fantasy": {
+        "english": ["Harry Potter Series", "The Lord of the Rings", "Pan's Labyrinth", "The Chronicles of Narnia", "Stardust"],
+        "hindi": ["Baahubali", "Brahmāstra", "Makdee", "Tumbbad", "Aladin"],
+        "tamil": ["Ponniyin Selvan", "Puli", "Indru Netru Naalai", "Magadheera", "Aayirathil Oruvan"],
+        "telugu": ["Magadheera", "Baahubali", "Yamadonga", "Jagadeka Veerudu Athiloka Sundari", "Anji"],
+        "kannada": ["Vishnuvardhana", "Nagarahavu", "Kurukshetra", "Shivajinagara", "Maya Bazar"],
+        "malayalam": ["Kaadu", "Marakkar", "Shikkari Shambu", "Ezhamathe Varavu", "Iyobinte Pusthakam"],
+        "subtitles": "Available in multiple languages"
+    },
+    "mystery": {
+        "english": ["Gone Girl", "Shutter Island", "Se7en", "The Girl with the Dragon Tattoo", "Knives Out"],
+        "hindi": ["Kahaani", "Drishyam", "Talaash", "Raat Akeli Hai", "Andhadhun"],
+        "tamil": ["Ratsasan", "Thadam", "Psycho", "Dhuruvangal Pathinaaru", "Viduthalai"],
+        "telugu": ["Evaru", "Kshanam", "Anukokunda Oka Roju", "Goodachari", "Drushyam"],
+        "kannada": ["Lucia", "U-Turn", "Aa Karaala Ratri", "Rangitaranga", "Kavaludaari"],
+        "malayalam": ["Drishyam", "Anjaam Pathiraa", "Mumbai Police", "Memories", "Grandmaster"],
+        "subtitles": "Available in multiple languages"
+    },
+    "rom-com": {
+        "english": ["10 Things I Hate About You", "Crazy Rich Asians", "Notting Hill", "Love Actually", "Pretty Woman"],
+        "hindi": ["Jab We Met", "Barfi!", "Tanu Weds Manu", "Hum Tum", "Shaadi Mein Zaroor Aana"],
+        "tamil": ["OK Kanmani", "Remo", "Mouna Ragam", "Raja Rani", "Kadhalum Kadanthu Pogum"],
+        "telugu": ["Geetha Govindam", "Pelli Choopulu", "Malli Malli Idi Rani Roju", "Tholi Prema", "Fidaa"],
+        "kannada": ["Mungaru Male", "Gaalipata", "Googly", "Chowka", "Kirik Party"],
+        "malayalam": ["Premam", "Bangalore Days", "Ohm Shanthi Oshaana", "Thattathin Marayathu", "Kilometers & Kilometers"],
+        "subtitles": "Available in multiple languages"
+    }
+};
+
+            
+            if (recommendations[genre]) {
+                const movieList = recommendations[genre][language] || ["Not available in this language"];
+                movieResult.innerHTML = `<p><strong>Recommended Movies:</strong></p>
+                                         <p>${movieList.join('<br>')}</p>`;
+            } else {
+                movieResult.innerHTML = "<p>No recommendations available for this genre.</p>";
+            }
+        }
+    </script>
+</body>
+</html>
